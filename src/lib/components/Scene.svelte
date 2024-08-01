@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { PlaneGeometry, TextureLoader } from 'three';
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 	import { createNoise2D } from 'simplex-noise';
@@ -12,15 +12,9 @@
 	const noise = createNoise2D();
 	const vertices = geometry.getAttribute('position').array;
 
-	let heightmap = 'path/to/heightmap.png';
-
-	const textureLoader = new TextureLoader();
-	const heightMapTexture = textureLoader.load(heightmap);
-
 	for (let i = 0; i < vertices.length; i += 3) {
 		const x = vertices[i];
 		const y = vertices[i + 1];
-		// @ts-ignore
 		vertices[i + 2] = noise(x / 4, y / 4);
 	}
 
@@ -31,7 +25,7 @@
 <Debug visible={$showCollider} />
 
 <T.PerspectiveCamera makeDefault position.y={5} position.z={10} lookAt.y={2}>
-	<OrbitControls autoRotate={$autoRotate} enableZoom={false} maxPolarAngle={DEG2RAD * 80} />
+	<OrbitControls autoRotate={$autoRotate} enableZoom={true} maxPolarAngle={DEG2RAD * 80} />
 </T.PerspectiveCamera>
 
 <T.DirectionalLight position={[3, 10, 10]} />

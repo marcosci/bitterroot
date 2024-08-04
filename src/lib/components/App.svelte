@@ -4,6 +4,8 @@
 	import Scene from './Scene.svelte';
 	import { Pane, Checkbox } from 'svelte-tweakpane-ui';
 	import { showCollider, autoRotate } from '../state';
+
+	export let data;
 </script>
 
 <Pane title="" position="fixed">
@@ -14,7 +16,7 @@
 <div>
 	<Canvas>
 		<World>
-			<Scene />
+			<Scene {data} />
 		</World>
 	</Canvas>
 </div>

@@ -2,11 +2,14 @@
 	import { Canvas } from '@threlte/core';
 	import { World } from '@threlte/rapier';
 	import Scene from './Scene.svelte';
+	import Tweakpane from './Tweakpane.svelte';
 	import { Pane, Checkbox } from 'svelte-tweakpane-ui';
 	import { showCollider, autoRotate } from '../state';
 
 	export let data;
 </script>
+
+<Tweakpane />
 
 <Pane title="" position="fixed">
 	<Checkbox label="Show Collider" bind:value={$showCollider} />

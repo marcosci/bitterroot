@@ -4,7 +4,7 @@
 </script>
 
 <div class="h-screen overflow-hidden bg-slate-200">
-	<div class="flex items-center space-x-4 p-4">
+	<div class="absolute left-4 top-4 z-50">
 		<img src="/BitterrootLogoPNG.png" alt="Description of image" class="h-36" />
 	</div>
 

@@ -169,19 +169,14 @@
 
 <Debug visible={$showCollider} />
 
-<T.PerspectiveCamera
-	makeDefault
-	position.y={1}
-	position.z={2000}
-	lookAt.y={0}
-	fov={60}
-	far={100000}
->
+<T.PerspectiveCamera makeDefault position={[0, 0, 3000]} lookAt.y={0} fov={60} far={100000}>
 	<OrbitControls
 		enableDamping={true}
 		autoRotate={$autoRotate}
 		enableZoom={true}
 		maxPolarAngle={1}
+		target={[0, 0, 0]}
+		position={[500, 0, 0]}
 		keys={{
 			LEFT: 'ArrowLeft', //left arrow
 			UP: 'ArrowUp', // up arrow

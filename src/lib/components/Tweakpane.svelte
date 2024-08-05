@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { cn } from '$helpers';
-	import { createTabs, melt } from '@melt-ui/svelte';
+	import { createTabs, createSwitch, melt } from '@melt-ui/svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
+	import Switches from './Switches.svelte';
 
 	const {
 		elements: { root, list, content, trigger },
@@ -15,9 +16,9 @@
 	export { className as class };
 
 	const triggers = [
-		{ id: 'tab-1', title: 'Account' },
-		{ id: 'tab-2', title: 'Password' },
-		{ id: 'tab-3', title: 'Settings' }
+		{ id: 'tab-1', title: 'Landscape' },
+		{ id: 'tab-2', title: 'Loot' },
+		{ id: 'tab-3', title: 'Player' }
 	];
 
 	const [send, receive] = crossfade({
@@ -26,77 +27,69 @@
 	});
 </script>
 
-<div
-	use:melt={$root}
-	class={cn(
-		'flex max-w-[25rem] flex-col overflow-hidden rounded-xl shadow-lg  data-[orientation=vertical]:flex-row',
-		className
-	)}
->
+<div class="absolute right-4 top-4 z-50 w-72">
 	<div
-		use:melt={$list}
-		class="flex shrink-0 overflow-x-auto bg-neutral-100
-      data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-r"
-		aria-label="Manage your account"
+		use:melt={$root}
+		class={cn(
+			'flex flex-col overflow-hidden rounded-xl  shadow-lg  data-[orientation=vertical]:flex-row',
+			className
+		)}
 	>
-		{#each triggers as triggerItem}
-			<button use:melt={$trigger(triggerItem.id)} class="trigger relative">
-				{triggerItem.title}
-				{#if $value === triggerItem.id}
-					<div
-						in:send={{ key: 'trigger' }}
-						out:receive={{ key: 'trigger' }}
-						class="bg-magnum-400 absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full"
-					/>
-				{/if}
-			</button>
-		{/each}
-	</div>
-	<div use:melt={$content('tab-1')} class="grow bg-white p-5">
-		<p class="mb-5 leading-normal text-neutral-900">
-			Make changes to your account here. Click save when you're done.
-		</p>
-		<fieldset class="mb-4 flex w-full flex-col justify-start">
-			<label class="mb-2.5 block text-sm leading-none text-neutral-900" for="name"> Name </label>
-			<input id="name" value="Thomas G. Lopes" />
-		</fieldset>
-
-		<div class="mt-5 flex justify-end">
-			<button class="save">Save changes</button>
+		<div
+			use:melt={$list}
+			class="flex shrink-0 overflow-x-auto bg-gray-500
+      data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-r"
+			aria-label="Manage your account"
+		>
+			{#each triggers as triggerItem}
+				<button use:melt={$trigger(triggerItem.id)} class="trigger relative">
+					{triggerItem.title}
+					{#if $value === triggerItem.id}
+						<div
+							in:send={{ key: 'trigger' }}
+							out:receive={{ key: 'trigger' }}
+							class="absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full bg-magnum-400"
+						/>
+					{/if}
+				</button>
+			{/each}
 		</div>
-	</div>
-	<div use:melt={$content('tab-2')} class="grow bg-white p-5">
-		<p class="mb-5 leading-normal text-neutral-900">
-			Change your password here. Click save when you're done.
-		</p>
-		<fieldset class="mb-4 flex w-full flex-col justify-start">
-			<label class="mb-2.5 block text-sm leading-none text-neutral-900" for="newPassword">
-				New password
-			</label>
-			<input id="newPassword" type="password" />
-		</fieldset>
-		<div class="mt-5 flex justify-end">
-			<button class="save">Save changes</button>
+		<div use:melt={$content('tab-1')} class="grow bg-gray-500 p-5">
+			<Switches />
 		</div>
-	</div>
-	<div use:melt={$content('tab-3')} class="grow bg-white p-5">
-		<p class="mb-5 leading-normal text-neutral-900">
-			Change your settings here. Click save when you're done.
-		</p>
+		<div use:melt={$content('tab-2')} class="grow bg-white p-5">
+			<p class="mb-5 leading-normal text-neutral-900">
+				Change your password here. Click save when you're done.
+			</p>
+			<fieldset class="mb-4 flex w-full flex-col justify-start">
+				<label class="mb-2.5 block text-sm leading-none text-neutral-900" for="newPassword">
+					New password
+				</label>
+				<input id="newPassword" type="password" />
+			</fieldset>
+			<div class="mt-5 flex justify-end">
+				<button class="save">Save changes</button>
+			</div>
+		</div>
+		<div use:melt={$content('tab-3')} class="grow bg-white p-5">
+			<p class="mb-5 leading-normal text-neutral-900">
+				Change your settings here. Click save when you're done.
+			</p>
 
-		<fieldset class="mb-4 flex w-full flex-col justify-start">
-			<label class="mb-2.5 block text-sm leading-none text-neutral-900" for="newEmail">
-				New email
-			</label>
-			<input id="newEmail" type="email" />
-		</fieldset>
-		<div class="mt-5 flex justify-end">
-			<button class="save">Save changes</button>
+			<fieldset class="mb-4 flex w-full flex-col justify-start">
+				<label class="mb-2.5 block text-sm leading-none text-neutral-900" for="newEmail">
+					New email
+				</label>
+				<input id="newEmail" type="email" />
+			</fieldset>
+			<div class="mt-5 flex justify-end">
+				<button class="save">Save changes</button>
+			</div>
 		</div>
 	</div>
 </div>
 
-<style lang="postcss">
+<style>
 	.trigger {
 		display: flex;
 		align-items: center;
@@ -131,41 +124,20 @@
 		}
 	}
 
-	input {
-		height: theme(spacing.8);
-		flex-shrink: 0;
-		flex-grow: 1;
-		border-radius: theme(borderRadius.md);
-		border: 1px solid theme(colors.neutral.200);
-		padding-inline: theme(spacing[2.5]);
-		line-height: 1;
-		color: theme(colors.neutral.900);
-
-		&:focus {
-			border-color: theme(colors.magnum.400);
-		}
+	button {
+		--w: 2.75rem;
+		--padding: 0.125rem;
+		width: var(--w);
 	}
 
-	.save {
-		display: inline-flex;
-		height: theme(spacing.8);
-		cursor: default;
-		align-items: center;
-		justify-content: center;
-		border-radius: theme(borderRadius.md);
-		background-color: theme(colors.magnum.200);
-		padding-inline: theme(spacing.4);
-		line-height: 1;
-		font-weight: theme(fontWeight.semibold);
-		color: theme(colors.magnum.900);
-		@apply transition;
+	.thumb {
+		--size: 1.25rem;
+		width: var(--size);
+		height: var(--size);
+		transform: translateX(var(--padding));
+	}
 
-		&:hover {
-			opacity: 0.75;
-		}
-
-		&:focus {
-			@apply !ring-green-600;
-		}
+	:global([data-state='checked']) .thumb {
+		transform: translateX(calc(var(--w) - var(--size) - var(--padding)));
 	}
 </style>

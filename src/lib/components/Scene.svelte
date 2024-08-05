@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { BufferGeometry, Float32BufferAttribute, DoubleSide } from 'three';
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 	import { T } from '@threlte/core';
@@ -174,10 +174,22 @@
 	position.y={1}
 	position.z={2000}
 	lookAt.y={0}
-	fov={60}
-	far={100000}
+	position={{ x: 0, y: 0, z: 400 }}
+	fov={65}
+	far={1000}
 >
-	<OrbitControls autoRotate={$autoRotate} enableZoom={true} maxPolarAngle={DEG2RAD * 80} />
+	<OrbitControls
+		enableDamping={true}
+		autoRotate={$autoRotate}
+		enableZoom={true}
+		maxPolarAngle={1}
+		keys={{
+			LEFT: 'ArrowLeft', //left arrow
+			UP: 'ArrowUp', // up arrow
+			RIGHT: 'ArrowRight', // right arrow
+			BOTTOM: 'ArrowDown' // down arrow
+		}}
+	/>
 </T.PerspectiveCamera>
 
 <T.AmbientLight intensity={0.5} />

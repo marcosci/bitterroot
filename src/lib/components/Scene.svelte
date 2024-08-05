@@ -174,9 +174,8 @@
 	position.y={1}
 	position.z={2000}
 	lookAt.y={0}
-	position={{ x: 0, y: 0, z: 400 }}
-	fov={65}
-	far={1000}
+	fov={60}
+	far={100000}
 >
 	<OrbitControls
 		enableDamping={true}

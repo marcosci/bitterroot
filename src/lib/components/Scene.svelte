@@ -1,5 +1,11 @@
 <script>
-	import { BufferGeometry, Float32BufferAttribute, DoubleSide } from 'three';
+	import {
+		BufferGeometry,
+		Float32BufferAttribute,
+		DoubleSide,
+		BufferAttribute,
+		TextureLoader
+	} from 'three';
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 	import { T } from '@threlte/core';
 	import { OrbitControls } from '@threlte/extras';
@@ -41,8 +47,12 @@
 		console.log('Building faces list...');
 		const indices = this._buildTriangles();
 
+		console.log('Building uv mapping ...');
+		const uvs = this._uvMapping();
+
 		this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 		this.geometry.setIndex(indices);
+		this.geometry.setAttribute('uv', new BufferAttribute(uvs, 2));
 		this.geometry.computeVertexNormals();
 	};
 
@@ -69,6 +79,29 @@
 		}
 
 		return vertices;
+	};
+
+	JsonDemLoader.prototype._uvMapping = function () {
+		let width = this.width;
+		let height = this.height;
+
+		const uvs = new Float32Array(width * height * 2); // Array to store UV coordinates
+
+		for (let y = 0; y < height; y++) {
+			for (let x = 0; x < width; x++) {
+				const i = (y * width + x) * 2; // Calculate the index in the array
+
+				// Calculate the original UV coordinates
+				const u = x / (width - 1);
+				const v = y / (height - 1);
+
+				// Apply 270 degrees rotation (equivalent to -90 degrees)
+				uvs[i] = 1 - v; // New u coordinate
+				uvs[i + 1] = u; // New v coordinate
+			}
+		}
+
+		return uvs;
 	};
 
 	// returns the pixel value - min and adjusted with a factor
@@ -165,6 +198,12 @@
 	);
 
 	geometry.scale(1, 2.5, 1);
+
+	// create a texture loader.
+	const textureLoader = new TextureLoader();
+
+	// load a texture
+	const texture = textureLoader.load('/sat_image.png');
 </script>
 
 <Debug visible={$showCollider} />
@@ -191,5 +230,5 @@
 <T.HemisphereLight intensity={0.2} />
 
 <T.Mesh {geometry}>
-	<T.MeshStandardMaterial side={DoubleSide} />
+	<T.MeshStandardMaterial map={texture} side={DoubleSide} />
 </T.Mesh>
